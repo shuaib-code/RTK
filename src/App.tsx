@@ -1,4 +1,5 @@
 import "./App.css";
+import { Button } from "./components/ui/button";
 import { decrement, increment } from "./redux/features/counter/counterSlice";
 import { useAppDispatch, useAppSelector } from "./redux/hook";
 
@@ -53,13 +54,13 @@ function App() {
 
         <div className={styles.button_container}>
           {actionBtn?.map(({ label, action, style }, idx) => (
-            <button
+            <Button
               key={idx}
               onClick={() => dispatch(action)}
               className={`${styles.button} ${style}`}
             >
               {label}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
