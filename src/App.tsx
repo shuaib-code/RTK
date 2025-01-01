@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "./redux/hook";
 
 const styles = {
   container:
-    "flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-purple-500 to-indigo-500",
+    "flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-purple-500 to-indigo-500;",
   title: "text-white text-3xl font-bold mb-6",
   card: "bg-white shadow-lg rounded-lg p-8 text-center",
   count: "text-5xl font-extrabold text-pink-500 to-indigo-500",
