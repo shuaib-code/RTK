@@ -1,8 +1,6 @@
+import { RootState } from "@/redux/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface ICounterState {
-  count: number;
-}
+import { ICounterState } from "./types";
 
 const initialState = {
   count: 0,
@@ -21,5 +19,6 @@ const counterSlice = createSlice({
   },
 });
 
+export const counterSelector = (state: RootState) => state.counter.count;
 export const { increment, decrement } = counterSlice.actions;
 export default counterSlice.reducer;
