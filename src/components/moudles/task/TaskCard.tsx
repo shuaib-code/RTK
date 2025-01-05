@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
+import { useAppDispatch } from "@/redux/hook";
+import { deleteTask, isCompleted } from "@/redux/slices/task/taskSlice";
 import { ITask } from "@/redux/slices/task/types";
 import { format } from "date-fns";
 import { Calendar, Edit, Trash2 } from "lucide-react";
@@ -13,16 +15,14 @@ interface IProps {
 }
 
 export function TaskCard({ task }: IProps) {
-  // const [isSelected, setIsSelected] = useState(false);
-
+  const dispatch = useAppDispatch();
   if (!task) {
     return <div>Error: Task data is missing</div>;
   }
 
-  // const handleCheckboxChange = (checked: boolean) => {
-  //   setIsSelected(checked);
-  //   onComplete(task.id, checked);
-  // };
+  const handleComplete = (checked: boolean) => {
+    dispatch(isCompleted({ id: task.id, checked: checked }));
+  };
 
   return (
     <div
@@ -64,7 +64,7 @@ export function TaskCard({ task }: IProps) {
           <Checkbox
             id={`task-${task?.id}`}
             checked={task?.isCompleted}
-            // onCheckedChange={() => handleCheckboxChange(true)}
+            onCheckedChange={() => handleComplete(!task?.isCompleted)}
           />
           <Button variant="outline" size="icon">
             <Edit className="h-4 w-4" />
@@ -73,7 +73,7 @@ export function TaskCard({ task }: IProps) {
             variant="outline"
             size="icon"
             className="text-red-500"
-            // onClick={() => onDelete(task.id)}
+            onClick={() => dispatch(deleteTask(task.id))}
           >
             <Trash2 className="h-4 w-4" />
           </Button>
