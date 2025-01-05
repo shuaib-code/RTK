@@ -1,5 +1,5 @@
 export interface ITask {
-  id: number;
+  id: string;
   title: string;
   description: string;
   dueDate: string;
@@ -9,4 +9,5 @@ export interface ITask {
 
 export interface ITaskState {
   tasks: ITask[];
+  filter: "all" | "high" | "medium" | "low";
 }

@@ -33,6 +33,8 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import { useAppDispatch } from "@/redux/hook";
+import { addTask } from "@/redux/slices/task/taskSlice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
@@ -46,6 +48,7 @@ interface AddTaskModalProps {
 }
 
 export function AddTaskModal({ open, onOpenChange }: AddTaskModalProps) {
+  const dispatch = useAppDispatch();
   const form = useForm<z.infer<typeof taskFormSchema>>({
     resolver: zodResolver(taskFormSchema),
     defaultValues: {
@@ -58,8 +61,7 @@ export function AddTaskModal({ open, onOpenChange }: AddTaskModalProps) {
   });
 
   function onSubmit(values: z.infer<typeof taskFormSchema>) {
-    console.log("Form Data Submitted:", values);
-    // Handle form submission (e.g., send to an API)
+    dispatch(addTask(values));
   }
 
   return (
@@ -72,7 +74,7 @@ export function AddTaskModal({ open, onOpenChange }: AddTaskModalProps) {
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
             <FormField
               control={form.control}
               name="title"
@@ -174,7 +176,7 @@ export function AddTaskModal({ open, onOpenChange }: AddTaskModalProps) {
               control={form.control}
               name="isCompleted"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4 mt-2">
                   <div className="space-y-0.5">
                     <FormLabel className="text-base">Completed</FormLabel>
                     <FormDescription>
