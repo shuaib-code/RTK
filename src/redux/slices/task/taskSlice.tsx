@@ -6,11 +6,27 @@ const initialState = {
   tasks: [
     {
       id: 1,
-      title: "this is the task",
-      description: "description of task",
+      title: "Start next.js Course",
+      description: "This is a simple description of task",
       dueDate: "2024-01",
       isCompleted: false,
-      proirify: "High",
+      proirify: "high",
+    },
+    {
+      id: 2,
+      title: "Finish Redux Class",
+      description: "This is a simple description of task",
+      dueDate: "2024-01",
+      isCompleted: false,
+      proirify: "low",
+    },
+    {
+      id: 3,
+      title: "Finish SQL Track",
+      description: "This is a simple description of task",
+      dueDate: "2024-01",
+      isCompleted: false,
+      proirify: "medium",
     },
   ],
 } satisfies ITaskState;

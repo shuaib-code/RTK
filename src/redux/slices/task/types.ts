@@ -1,12 +1,12 @@
-export interface ITasks {
+export interface ITask {
   id: number;
   title: string;
   description: string;
   dueDate: string;
   isCompleted: boolean;
-  proirify: "High" | "Medium" | "Low";
+  proirify: "high" | "medium" | "low";
 }
 
 export interface ITaskState {
-  tasks: ITasks[];
+  tasks: ITask[];
 }

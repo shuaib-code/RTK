@@ -1,6 +1,6 @@
+import { Button } from "@/components/ui/button";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { decrement, increment } from "@/redux/slices/counter/counterSlice";
-import { Button } from "../ui/button";
 import { styles } from "./style";
 
 function Counter() {

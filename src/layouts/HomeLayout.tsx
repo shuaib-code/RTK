@@ -7,7 +7,7 @@ export default function HomeLayout() {
       <header>
         <NavBar />
       </header>
-      <main className=" min-h-screen flex items-center">
+      <main className=" min-h-screen container mx-auto px-4">
         <Outlet />
       </main>
     </div>
