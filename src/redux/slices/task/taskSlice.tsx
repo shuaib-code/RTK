@@ -22,6 +22,14 @@ const initialState = {
     },
     {
       id: 3,
+      title: "Complete Fronted NoSQL track",
+      description: "This is a simple description of task",
+      dueDate: "2023-01-23",
+      isCompleted: true,
+      priority: "medium",
+    },
+    {
+      id: 4,
       title: "Finish SQL Track",
       description: "This is a simple description of task",
       dueDate: "2025-01-23",

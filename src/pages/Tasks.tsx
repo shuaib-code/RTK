@@ -5,7 +5,6 @@ import { taskSelector } from "@/redux/slices/task/taskSlice";
 
 export default function Task() {
   const tasks = useAppSelector(taskSelector);
-  console.log(tasks);
 
   return (
     <div className="px-2 mt-4">
