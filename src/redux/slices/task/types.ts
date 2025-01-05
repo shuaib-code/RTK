@@ -11,3 +11,5 @@ export interface ITaskState {
   tasks: ITask[];
   filter: "all" | "high" | "medium" | "low";
 }
+
+export type TFilter = "all" | "high" | "medium" | "low";

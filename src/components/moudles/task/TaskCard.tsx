@@ -7,14 +7,7 @@ import { ITask } from "@/redux/slices/task/types";
 import { format } from "date-fns";
 import { Calendar, Edit, Trash2 } from "lucide-react";
 
-interface IProps {
-  task: ITask;
-  // onDelete: (id: number) => void;
-  // onEdit: (task: ITask) => void;
-  // onComplete: (id: number, isCompleted: boolean) => void;
-}
-
-export function TaskCard({ task }: IProps) {
+export function TaskCard({ task }: { task: ITask }) {
   const dispatch = useAppDispatch();
   if (!task) {
     return <div>Error: Task data is missing</div>;
