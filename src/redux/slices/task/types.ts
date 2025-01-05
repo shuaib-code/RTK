@@ -4,7 +4,7 @@ export interface ITask {
   description: string;
   dueDate: string;
   isCompleted: boolean;
-  proirify: "high" | "medium" | "low";
+  priority: "high" | "medium" | "low";
 }
 
 export interface ITaskState {
