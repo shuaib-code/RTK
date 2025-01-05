@@ -33,14 +33,6 @@ export function TaskCard({ task }: IProps) {
     >
       <div className="flex gap-4">
         <div className="grow flex items-start gap-4">
-          <span
-            className={cn("flex h-3 w-3 translate-y-1 rounded-full", {
-              "bg-red-500": task?.priority === "high",
-              "bg-yellow-500": task?.priority === "medium",
-              "bg-green-500": task?.priority === "low",
-              "bg-gray-500": !task?.priority,
-            })}
-          />
           <div className="space-y-2">
             <p
               className={cn(
@@ -48,6 +40,14 @@ export function TaskCard({ task }: IProps) {
                 task?.isCompleted && "line-through text-muted-foreground"
               )}
             >
+              <span
+                className={cn("inline-block h-3 w-3 rounded-full mr-2", {
+                  "bg-red-500": task?.priority === "high",
+                  "bg-yellow-500": task?.priority === "medium",
+                  "bg-green-500": task?.priority === "low",
+                  "bg-gray-500": !task?.priority,
+                })}
+              />
               {task?.title}
             </p>
             <p className="text-sm text-muted-foreground">{task?.description}</p>
@@ -60,7 +60,7 @@ export function TaskCard({ task }: IProps) {
           </div>
         </div>
 
-        <div className="flex-none flex gap-3 items-center">
+        <div className="flex flex-col gap-3 items-center sm:flex-row">
           <Checkbox
             id={`task-${task?.id}`}
             checked={task?.isCompleted}
