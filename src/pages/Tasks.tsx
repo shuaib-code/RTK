@@ -12,12 +12,17 @@ export default function Task() {
 
   return (
     <div className="px-2 mt-4">
-      <div className="flex justify-between">
-        <h1 className="text-2xl font-bold mb-6">My Tasks</h1>
+      <div className="grid grid-cols-1 md:grid-cols-[auto,1fr,auto] items-center gap-4 md:gap-6 mb-6">
+        <h1 className="text-2xl font-bold">My Tasks</h1>
+
+        <div className="flex justify-center md:hidden">
+          <AddTaskButton className="w-full" />
+        </div>
+
         <Tabs
           defaultValue="all"
           onValueChange={(value) => dispatch(updateFilter(value as TFilter))}
-          className="w-[400px]"
+          className="w-[400px] justify-self-center"
         >
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="all">All</TabsTrigger>
@@ -26,8 +31,12 @@ export default function Task() {
             <TabsTrigger value="medium">Medium</TabsTrigger>
           </TabsList>
         </Tabs>
-        <AddTaskButton />
+
+        <div className="justify-self-end hidden md:block">
+          <AddTaskButton />
+        </div>
       </div>
+
       <div className="grid gap-2">
         {tasks?.map((task, idx) => (
           <TaskCard task={task} key={idx} />
