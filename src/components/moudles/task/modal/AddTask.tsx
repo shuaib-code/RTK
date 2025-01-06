@@ -62,6 +62,8 @@ export function AddTaskModal({ open, onOpenChange }: AddTaskModalProps) {
 
   function onSubmit(values: z.infer<typeof taskFormSchema>) {
     dispatch(addTask(values));
+    onOpenChange(false);
+    form.reset();
   }
 
   return (
