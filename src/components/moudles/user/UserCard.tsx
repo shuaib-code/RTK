@@ -1,11 +1,11 @@
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Trash } from "lucide-react";
 
-export default function UserCard() {
+export default function UserCard({ user }: { user: string }) {
   return (
     <Card className="w-[300px] shadow-md">
       <CardHeader className="flex-row justify-between items-center">
-        <CardTitle className="text-lg font-semibold">Shuaib</CardTitle>
+        <CardTitle className="text-lg font-semibold">{user}</CardTitle>
         <button
           className="text-red-500 hover:text-red-700 transition"
           aria-label="Delete user"
