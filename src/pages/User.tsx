@@ -1,3 +1,5 @@
+import UserCard from "@/components/moudles/user/UserCard";
+
 export default function User() {
   //   const tasks = useAppSelector(selectFilter);
   //   const dispatch = useAppDispatch();
@@ -17,10 +19,11 @@ export default function User() {
         </div>
       </div>
 
-      <div className="grid gap-2">
+      <div className="grid gap-2 grid-cols-1 md:grid-cols-3">
         {/* {tasks?.map((task, idx) => (
           <TaskCard task={task} key={idx} />
         ))} */}
+        <UserCard />
       </div>
     </div>
   );
