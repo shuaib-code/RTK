@@ -1,15 +1,38 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { io } from "socket.io-client";
+import { ITask_id } from "../slices/task/types";
+
+const socket = io("http://localhost:5000");
 
 export const baseAPI = createApi({
   reducerPath: "TaskAPI",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000" }),
+  tagTypes: ["task"],
   endpoints: (builder) => ({
     getTasks: builder.query({
-      query: () => "/tasks",
+      query: () => "/api/tasks",
+      async onCacheEntryAdded(
+        arg,
+        { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
+      ) {
+        await cacheDataLoaded;
+        const handleNewTask = (newTask: ITask_id) => {
+          updateCachedData((draft) => {
+            draft.tasks.push(newTask);
+          });
+        };
+        socket.on("new-task", (task) => {
+          console.log(task);
+          handleNewTask(task);
+        });
+
+        await cacheEntryRemoved;
+        socket.off("new-task", handleNewTask);
+      },
     }),
     createTask: builder.mutation({
       query: (taskData) => ({
-        url: "/tasks",
+        url: "/api/tasks",
         method: "POST",
         body: taskData,
       }),

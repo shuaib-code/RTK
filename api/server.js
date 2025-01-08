@@ -1,15 +1,18 @@
 import cors from "cors";
 import express from "express";
+import http from "http";
 import mongoose from "mongoose";
-import path from "path";
-import { fileURLToPath } from "url"; // Add this line for fileURLToPath
+import { Server } from "socket.io";
 import QueryBuilder from "./QueryBuilder.js";
 import DATABASE_URL from "./uri.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173",
+  },
+});
 
 // Connect to MongoDB
 mongoose.connect(DATABASE_URL);
@@ -26,10 +29,18 @@ const taskSchema = new mongoose.Schema({
 const Task = mongoose.model("Task", taskSchema);
 
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(cors());
 
-// Serve static files from the frontend build
-app.use(express.static(path.join(__dirname, "..", "dist")));
+// listen to change of task collection
+const taskStream = Task.watch();
+
+taskStream.on("change", (change) => {
+  if (change.operationType === "insert") {
+    const newTask = change.fullDocument;
+    delete newTask.__v;
+    io.emit("new-task", newTask);
+  }
+});
 
 // Get all tasks
 app.get("/api/tasks", async (req, res) => {
@@ -80,10 +91,12 @@ app.delete("/api/tasks/:id", async (req, res) => {
   res.json({ message: "Task deleted" });
 });
 
-// Catch-all route to serve frontend
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "dist", "index.html"));
+io.on("connection", (socket) => {
+  console.log("Client connected");
+  socket.on("disconnect", () => {
+    console.log("Client disconnected");
+  });
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
