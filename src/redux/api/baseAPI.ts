@@ -12,7 +12,7 @@ export const baseAPI = createApi({
     getTasks: builder.query({
       query: () => "/api/tasks",
       async onCacheEntryAdded(
-        arg,
+        _,
         { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
       ) {
         await cacheDataLoaded;
