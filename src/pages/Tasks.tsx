@@ -1,13 +1,18 @@
 import { AddTaskButton } from "@/components/moudles/task/modal/button";
 import { TaskCard } from "@/components/moudles/task/TaskCard";
+import { TaskCardSkeleton } from "@/components/skeletion/task/loading";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useGetTasksQuery } from "@/redux/api/baseAPI";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { selectFilter, updateFilter } from "@/redux/slices/task/taskSlice";
-import { TFilter } from "@/redux/slices/task/types";
+import { ITask_id, TFilter } from "@/redux/slices/task/types";
 
 export default function Task() {
+  const { data, isLoading, isError } = useGetTasksQuery(undefined);
   const tasks = useAppSelector(selectFilter);
   const dispatch = useAppDispatch();
+  if (isLoading) return <TaskCardSkeleton />;
+  if (isError) return <div>Error loading tasks</div>;
   if (tasks.length === 0) return <Nothing_UI />;
 
   return (
@@ -38,7 +43,7 @@ export default function Task() {
       </div>
 
       <div className="grid gap-2">
-        {tasks?.map((task, idx) => (
+        {data?.tasks?.map((task: ITask_id, idx: number) => (
           <TaskCard task={task} key={idx} />
         ))}
       </div>

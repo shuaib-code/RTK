@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 import mongoose from "mongoose";
 import path from "path";
@@ -25,6 +26,7 @@ const taskSchema = new mongoose.Schema({
 const Task = mongoose.model("Task", taskSchema);
 
 app.use(express.json());
+app.use(cors({ origin: "http://localhost:5173" }));
 
 // Serve static files from the frontend build
 app.use(express.static(path.join(__dirname, "..", "dist")));

@@ -32,9 +32,9 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { useAppDispatch } from "@/redux/hook";
-import { addTask } from "@/redux/slices/task/taskSlice";
+import { useCreateTaskMutation } from "@/redux/api/baseAPI";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
@@ -48,7 +48,8 @@ interface AddTaskModalProps {
 }
 
 export function AddTaskModal({ open, onOpenChange }: AddTaskModalProps) {
-  const dispatch = useAppDispatch();
+  const { toast } = useToast();
+  const [createTask] = useCreateTaskMutation();
   const form = useForm<z.infer<typeof taskFormSchema>>({
     resolver: zodResolver(taskFormSchema),
     defaultValues: {
@@ -60,11 +61,17 @@ export function AddTaskModal({ open, onOpenChange }: AddTaskModalProps) {
     },
   });
 
-  function onSubmit(values: z.infer<typeof taskFormSchema>) {
-    dispatch(addTask(values));
-    onOpenChange(false);
-    form.reset();
-  }
+  const onSubmit = async (values: z.infer<typeof taskFormSchema>) => {
+    const res = await createTask(values).unwrap();
+    if (res) {
+      onOpenChange(false);
+      form.reset();
+      toast({
+        title: "Success!",
+        description: "Your task added successfully.",
+      });
+    }
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

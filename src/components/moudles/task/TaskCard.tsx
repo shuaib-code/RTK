@@ -2,20 +2,20 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { useAppDispatch } from "@/redux/hook";
-import { deleteTask, isCompleted } from "@/redux/slices/task/taskSlice";
-import { ITask } from "@/redux/slices/task/types";
+import { deleteTask } from "@/redux/slices/task/taskSlice";
+import { ITask_id } from "@/redux/slices/task/types";
 import { format } from "date-fns";
 import { Calendar, Edit, Trash2 } from "lucide-react";
 
-export function TaskCard({ task }: { task: ITask }) {
+export function TaskCard({ task }: { task: ITask_id }) {
   const dispatch = useAppDispatch();
   if (!task) {
     return <div>Error: Task data is missing</div>;
   }
 
-  const handleComplete = (checked: boolean) => {
-    dispatch(isCompleted({ id: task.id, checked: checked }));
-  };
+  // const handleComplete = (checked: boolean) => {
+  //   dispatch(isCompleted({ id: task.id, checked: checked }));
+  // };
 
   return (
     <div
@@ -55,9 +55,9 @@ export function TaskCard({ task }: { task: ITask }) {
 
         <div className="flex flex-col gap-3 items-center sm:flex-row">
           <Checkbox
-            id={`task-${task?.id}`}
+            id={`task-${task?._id}`}
             checked={task?.isCompleted}
-            onCheckedChange={() => handleComplete(!task?.isCompleted)}
+            // onCheckedChange={() => handleComplete(!task?.isCompleted)}
           />
           <Button variant="outline" size="icon">
             <Edit className="h-4 w-4" />
@@ -66,7 +66,7 @@ export function TaskCard({ task }: { task: ITask }) {
             variant="outline"
             size="icon"
             className="text-red-500"
-            onClick={() => dispatch(deleteTask(task.id))}
+            onClick={() => dispatch(deleteTask(task._id))}
           >
             <Trash2 className="h-4 w-4" />
           </Button>
