@@ -1,3 +1,4 @@
+import { ErrorMessage } from "@/components/error/ErrorMessage";
 import { AddTaskButton } from "@/components/moudles/task/modal/button";
 import { TaskCard } from "@/components/moudles/task/TaskCard";
 import { TaskCardSkeleton } from "@/components/skeletion/task/loading";
@@ -12,7 +13,13 @@ export default function Task() {
   const tasks = useAppSelector(selectFilter);
   const dispatch = useAppDispatch();
   if (isLoading) return <TaskCardSkeleton />;
-  if (isError) return <div>Error loading tasks</div>;
+  if (isError)
+    return (
+      <ErrorMessage
+        title="Error: Task data is missing"
+        message="Something went worng while fetching task."
+      />
+    );
   if (tasks.length === 0) return <Nothing_UI />;
 
   return (
